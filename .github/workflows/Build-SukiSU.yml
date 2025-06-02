@@ -102,11 +102,6 @@ on:
         description: "是否启用添加更多的ZRAM算法？"
         required: true
         default: false
-      KERNEL_SUFFIX:
-        type: string
-        description: "内核名称后缀（例如：MoYu）"
-        required: false
-        default: ""
 
 jobs:
   build:
@@ -179,15 +174,6 @@ jobs:
           sed -i '$i res="${res}-MoYu"' common/scripts/setlocalversion
           git add -A
           git commit -m "Force remove -dirty suffix and add -MoYu suffix to kernel version"
-          
-          # 添加自定义后缀
-          if [ ! -z "${{ github.event.inputs.KERNEL_SUFFIX }}" ]; then
-            sed -i '$i res="${res}-${{ github.event.inputs.KERNEL_SUFFIX }}"' common/scripts/setlocalversion
-            echo "添加内核后缀: -${{ github.event.inputs.KERNEL_SUFFIX }}"
-          fi
-          
-          git add -A
-          git commit -m "Set kernel version suffix"
 
       # 添加 SukiSU Ultra
       - name: Add KernelSU-SukiSU Ultra
